@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passwordless Auth</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        input {
+            width: 90%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background-color: #2a2a2a;
+            color: #fff;
+            font-size: 16px;
+        }
+        button {
+            width: 96%;
+            padding: 12px;
+            background-color: #007acc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover { background-color: #0062a3; }
+        .hidden { display: none; }
+        .error { color: #ff5252; margin-top: 10px; font-size: 14px; font-weight: bold; }
+        .exito { color: #4caf50; margin-top: 10px; font-size: 14px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Acceso Inteligente</h2>
+    <p id="instrucciones">Introduce tu correo para verificar tu cuenta.</p>
+
+    <div id="seccion-correo">
+        <input type="email" id="email" placeholder="nombre@correo.com" required>
+        <button id="btn-enviar-correo">Enviar Código</button>
+    </div>
+
+    <div id="seccion-codigo" class="hidden">
+        <input type="text" id="codigo" placeholder="Introduce el código de 6 dígitos" maxlength="6">
+        <button id="btn-verificar-codigo">Verificar Código</button>
+    </div>
+
+    <div id="seccion-registro" class="hidden">
+        <input type="text" id="username" placeholder="Elige un nombre de usuario" maxlength="20">
+        <button id="btn-registrar">Completar Registro</button>
+    </div>
+
+    <div id="seccion-login" class="hidden">
+        <button id="btn-login" style="background-color: #4caf50;">Entrar a la Aplicación</button>
+    </div>
+
+    <p id="mensaje-estado"></p>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

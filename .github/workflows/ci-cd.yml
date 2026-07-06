@@ -1,0 +1,57 @@
+name: CI/CD Pipeline
+
+# El pipeline se ejecutará automáticamente con cada push o Pull Request a la rama principal
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  # TRABAJO 1: Verificar la calidad del código (Linting)
+  linting:
+    name: Code Quality & Linting
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el código del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar entorno de Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar herramientas de Linting
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff
+
+      - name: Ejecutar Ruff Linter (Python)
+        # Revisa errores de sintaxis, variables no usadas y estilo limpio en tu backend
+        run: ruff check backend/app
+
+  # TRABAJO 2: Verificar que Docker compila perfectamente
+  docker-build:
+    name: Docker Build Verification
+    runs-on: ubuntu-latest
+    needs: linting # Este trabajo solo arranca si el linter pasa con éxito
+
+    steps:
+      - name: Descargar el código del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Probar construcción del Backend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: false # Solo queremos verificar que compila, no subirlo a Docker Hub todavía
+
+      - name: Probar construcción del Frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: false

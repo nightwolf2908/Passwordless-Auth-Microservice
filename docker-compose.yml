@@ -1,0 +1,47 @@
+services:
+  # Servidor de Base de Datos (PostgreSQL)
+  postgres_db:
+    image: postgres:15-alpine # 'alpine' es una versión súper ligera que consume muy poco espacio
+    container_name: auth_postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: usuario_admin
+      POSTGRES_PASSWORD: mi_password_secreto
+      POSTGRES_DB: auth_db
+    ports:
+      - "5432:5432"
+    volumes:
+      # Esto hace que los datos de la BD se guarden temporalmente en una carpeta de Docker,
+      # no esparcidos por tu sistema operativo.
+      - postgres_data:/var/lib/postgresql/data
+
+  # Base de datos en memoria (Redis) para los códigos de verificación
+  redis_cache:
+    image: redis:7-alpine # También versión ultra ligera
+    container_name: auth_redis_cache
+    restart: always
+    ports:
+      - "6379:6379"
+  
+  #El nuevo servidor de backend
+  backend:
+    build: ./backend
+    container_name: auth_backend_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/app:/code/app # Esto permite que si editas el código en tu compu, se actualice en Docker al instante
+    depends_on:
+      - postgres_db
+      - redis_cache
+
+  frontend:
+    build: ./frontend
+    container_name: auth_frontend_web
+    ports:
+      - "80:80" # Tu web estará accesible en http://localhost
+    volumes:
+      - ./frontend:/usr/share/nginx/html # Sincroniza cambios en tiempo real
+
+volumes:
+  postgres_data:
