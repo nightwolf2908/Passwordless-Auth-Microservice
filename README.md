@@ -11,7 +11,7 @@ Automatización: ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions
 
 A continuación se muestra el estado actual de la integración continua gestionada de forma automática por servidores remotos:
 
-[![CI/CD Pipeline](https://github.com/nightwolf2908/Passwordless-Auth-Microservice/actions/workflows/ci-cd.yml/badge.flow.svg)](https://github.com/nightwolf2908/Passwordless-Auth-Microservice/actions)
+[![CI/CD Pipeline](https://github.com/nightwolf2908/Passwordless-Auth-Microservice/actions/workflows/ci-cd.yml/badge.flow.svg)]
 
 ---
 
